@@ -5,59 +5,53 @@
         <li v-for="n in 10" :key="n"></li>
       </ul>
     </div>
-    <!-- <div
-      class="page-login--layer page-login--layer-time"
-      flex="main:center cross:center">
-      {{time}}
-    </div> -->
     <div class="page-login--layer">
       <div
         class="page-login--content"
         flex="dir:top main:justify cross:stretch box:justify">
-        <!-- <div class="page-login--content-header">
-          <p class="page-login--content-header-motto">
-            时间是一切财富中最宝贵的财富
-          </p>
-        </div> -->
         <div
           class="page-login--content-main"
           flex="dir:top main:center cross:center">
           <!-- logo -->
-          <img class="page-login--logo" src="./image/logo.jpg">
+          <img class="page-login--logo" src="./image/loginbkg.jpg">
           <!-- form -->
           <div class="page-login--form">
-            <el-card shadow="never">
+            <!-- <el-card shadow="never"> -->
               <el-form
                 ref="loginForm"
-                label-position="top"
                 :rules="rules"
                 :model="formLogin"
                 size="default">
                 <el-form-item prop="username">
                   <el-input
+                    prefix-icon='el-icon-user'
                     type="text"
                     v-model="formLogin.username"
                     placeholder="用户名">
-                    <i slot="prepend" class="fa fa-user-circle-o"></i>
                   </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
                   <el-input
+                    prefix-icon='el-icon-unlock'
                     type="password"
                     v-model="formLogin.password"
                     placeholder="密码">
-                    <i slot="prepend" class="fa fa-keyboard-o"></i>
                   </el-input>
                 </el-form-item>
-                <el-form-item prop="code">
-                  <el-input
-                    type="text"
-                    v-model="formLogin.code"
-                    placeholder="验证码">
-                    <template slot="append">
-                      <img class="login-code" src="./image/login-code.png">
-                    </template>
-                  </el-input>
+                <el-form-item prop='role'>
+                  <el-select
+                    v-model="formLogin.role"
+                    placeholder="请选择"
+                    style='width: 100%'
+                  >
+                    <el-option
+                      v-for="item in options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                    <i slot='prefix' class="el-icon-s-custom" style="padding-left: 5px;"></i>
+                  </el-select>
                 </el-form-item>
                 <el-button
                   size="default"
@@ -67,34 +61,11 @@
                   登录
                 </el-button>
               </el-form>
-            </el-card>
-            <!-- <p
-              class="page-login--options"
-              flex="main:justify cross:center">
-              <span><d2-icon name="question-circle"/> 忘记密码</span>
-              <span>注册用户</span>
-            </p> -->
-            <!-- quick login -->
-            <el-button class="page-login--quick" size="default" type="info" @click="dialogVisible = true">
-              快速选择用户（测试功能）
-            </el-button>
+            <!-- </el-card> -->
           </div>
         </div>
       </div>
     </div>
-    <el-dialog
-      title="快速选择用户"
-      :visible.sync="dialogVisible"
-      width="400px">
-      <el-row :gutter="10" style="margin: -20px 0px -10px 0px;">
-        <el-col v-for="(user, index) in users" :key="index" :span="8">
-          <div class="page-login--quick-user" @click="handleUserBtnClick(user)">
-            <d2-icon name="user-circle-o"/>
-            <span>{{user.name}}</span>
-          </div>
-        </el-col>
-      </el-row>
-    </el-dialog>
   </div>
 </template>
 
@@ -112,28 +83,18 @@ export default {
       time: dayjs().format('HH:mm:ss'),
       // 快速选择用户
       dialogVisible: false,
-      users: [
-        {
-          name: 'Admin',
-          username: 'admin',
-          password: 'admin'
-        },
-        {
-          name: 'Editor',
-          username: 'editor',
-          password: 'editor'
-        },
-        {
-          name: 'User1',
-          username: 'user1',
-          password: 'user1'
-        }
+      // 用户角色
+      options: [
+        { value: 1, label: '管理员' },
+        { value: 2, label: '人事专员' },
+        { value: 3, label: '部门经理' },
+        { value: 4, label: '员工' }
       ],
       // 表单
       formLogin: {
         username: 'admin',
         password: 'admin',
-        code: 'v9am'
+        role: 1
       },
       // 表单校验
       rules: {
@@ -151,10 +112,10 @@ export default {
             trigger: 'blur'
           }
         ],
-        code: [
+        role: [
           {
             required: true,
-            message: '请输入验证码',
+            message: '请选择登录角色',
             trigger: 'blur'
           }
         ]
@@ -175,15 +136,6 @@ export default {
     ]),
     refreshTime () {
       this.time = dayjs().format('HH:mm:ss')
-    },
-    /**
-     * @description 接收选择一个用户快速登录的事件
-     * @param {Object} user 用户信息
-     */
-    handleUserBtnClick (user) {
-      this.formLogin.username = user.username
-      this.formLogin.password = user.password
-      this.submit()
     },
     /**
      * @description 提交表单
@@ -216,7 +168,8 @@ export default {
 <style lang="scss">
 .page-login {
   @extend %unable-select;
-  $backgroundColor: #F0F2F5;
+  // $backgroundColor: #F0F2F5;
+  $backgroundColor: dodgerblue;
   // ---
   background-color: $backgroundColor;
   height: 100%;
@@ -237,9 +190,28 @@ export default {
     overflow: hidden;
   }
   // 登陆页面控件的容器
+  .page-login--content-main {
+    width: 300px;
+    background: #fff;
+    padding-bottom: 20px;
+    position: relative;
+    &::after {
+      content: '人力资源管理';
+      position: absolute;
+      top: 10%;
+      color: #fff;
+      font-weight: bolder;
+      font-size: 22px;
+      letter-spacing: 5px;
+    }
+  }
   .page-login--content {
+    box-sizing: border-box;
     height: 100%;
     min-height: 500px;
+    display: flex;
+    align-items: center;
+    padding-top: 5%;
   }
   // header
   .page-login--content-header {
@@ -254,13 +226,27 @@ export default {
   }
   // main
   .page-login--logo {
-    width: 240px;
+    width: 100%;
     margin-bottom: 2em;
-    margin-top: -2em;
   }
   // 登录表单
   .page-login--form {
     width: 280px;
+    .fa {
+      display: inline-block;
+      width: 50px;
+      font-style: normal;
+      text-align: justify;
+      line-height: 0px;
+      vertical-align: middle;
+      white-space: normal;
+      &::after {
+        content: '';
+        display: inline-block;
+        height: 0px;
+        width: 100%;
+      }
+    }
     // 卡片
     .el-card {
       margin-bottom: 15px;
@@ -288,9 +274,6 @@ export default {
       color: $color-primary;
       margin-bottom: 15px;
       font-weight: bold;
-    }
-    .page-login--quick {
-      width: 100%;
     }
   }
   // 快速选择用户面板

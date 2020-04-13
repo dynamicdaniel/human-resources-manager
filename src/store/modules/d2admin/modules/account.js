@@ -2,7 +2,6 @@ import { Message, MessageBox } from 'element-ui'
 import util from '@/libs/util.js'
 import router from '@/router'
 import { AccountLogin } from '@api/sys.login'
-
 export default {
   namespaced: true,
   actions: {
@@ -70,6 +69,8 @@ export default {
       if (confirm) {
         commit('d2admin/gray/set', true, { root: true })
         MessageBox.confirm('确定要注销当前用户吗', '注销用户', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           type: 'warning'
         })
           .then(() => {
