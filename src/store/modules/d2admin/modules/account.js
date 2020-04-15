@@ -23,6 +23,7 @@ export default {
           password
         })
           .then(async res => {
+            console.log('store login action account.js', res)
             // 设置 cookie 一定要存 uuid 和 token 两个 cookie
             // 整个系统依赖这两个数据进行校验和存储
             // uuid 是用户身份唯一标识 用户注册的时候确定 并且不可改变 不可重复
@@ -92,6 +93,7 @@ export default {
      * @param {Object} context
      */
     load ({ dispatch }) {
+      console.log('执行 load')
       return new Promise(async resolve => {
         // DB -> store 加载用户名
         await dispatch('d2admin/user/load', null, { root: true })

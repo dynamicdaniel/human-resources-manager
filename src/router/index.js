@@ -7,7 +7,9 @@ import 'nprogress/nprogress.css'
 
 import store from '@/store/index'
 import util from '@/libs/util.js'
-
+import { frameInRoutes } from '@/router/routes'
+import menuAside from '@/menu/aside'
+import menuHeader from '@/menu/header'
 // 路由数据
 import routes from './routes'
 
@@ -33,17 +35,29 @@ const router = new VueRouter({
  * 权限验证
  */
 router.beforeEach(async (to, from, next) => {
+  console.log('router index.js 路由守卫————————————————————1')
   // 确认已经加载多标签页数据 https://github.com/d2-projects/d2-admin/issues/201
   await store.dispatch('d2admin/page/isLoaded')
   // 确认已经加载组件尺寸设置 https://github.com/d2-projects/d2-admin/issues/198
   await store.dispatch('d2admin/size/isLoaded')
+  console.log('router index.js 路由守卫————————————————————2')
   // 进度条
   NProgress.start()
   // 关闭搜索面板
   store.commit('d2admin/search/set', false)
+  
   // 验证当前路由所有的匹配中是否需要有登录验证的
   console.log('权限验证', to, from, next)
   if (to.matched.some(r => r.meta.auth)) {
+    store.dispatch('d2admin/user/load')
+      .then(res => {
+        console.log('本地数据库中的用户信息', res)
+      })
+    store.commit('d2admin/page/init', frameInRoutes)
+    // 设置顶栏菜单
+    store.commit('d2admin/menu/headerSet', menuHeader.default)
+    // 设置侧边栏菜单
+    store.commit('d2admin/menu/asideSet', menuAside)
     // 这里暂时将cookie里是否存有token作为验证是否登录的条件
     // 请根据自身业务需要修改
     const token = util.cookies.get('token')

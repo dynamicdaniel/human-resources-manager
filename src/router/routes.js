@@ -17,45 +17,75 @@ const frameIn = [
         path: 'index',
         name: 'index',
         meta: {
-          auth: true
+          auth: ['admin', 'hr', 'manager', 'employee']
         },
         component: _import('system/index')
       },
       // 演示页面
       {
-        path: 'page1',
-        name: 'page1',
+        path: 'employeeInfo',
+        name: 'employeeInfo',
         meta: {
-          title: '页面 1',
-          auth: true
+          title: '员工信息',
+          auth: ['admin', 'hr']
         },
-        component: _import('demo/page1')
+        component: _import('businessEmployeeManage/employeeInfo')
       },
       {
-        path: 'page2',
-        name: 'page2',
+        path: 'departmentInfo',
+        name: 'departmentInfo',
         meta: {
-          title: '页面 2',
-          auth: true
+          title: '部门信息',
+          auth: ['admin']
         },
         component: _import('demo/page2')
       },
       {
-        path: 'page3',
-        name: 'page3',
+        path: 'hrInfo',
+        name: 'hrInfo',
         meta: {
-          title: '页面 3',
-          auth: true
+          title: 'HR信息',
+          auth: ['admin']
         },
         component: _import('demo/page3')
       },
-      // 系统 前端日志
+      // 员工请假/出差记录查询
       {
-        path: 'log',
-        name: 'log',
+        path: 'employeeEvent',
+        name: 'employeeEvent',
         meta: {
-          title: '前端日志',
-          auth: true
+          title: '员工考勤',
+          auth: ['hr']
+        },
+        component: _import('system/log')
+      },
+      // 员工所属项目查询
+      {
+        path: 'employeeProject',
+        name: 'employeeProject',
+        meta: {
+          title: '员工项目信息',
+          auth: ['hr']
+        },
+        component: _import('system/log')
+      },
+      // 招聘信息管理
+      {
+        path: 'recruitmentManage',
+        name: 'recruitmentManage',
+        meta: {
+          title: '招聘管理',
+          auth: ['hr']
+        },
+        component: _import('system/log')
+      },
+      // 会议室管理
+      {
+        path: 'meetingManage',
+        name: 'meetingManage',
+        meta: {
+          title: '会议室管理',
+          auth: ['hr']
         },
         component: _import('system/log')
       },

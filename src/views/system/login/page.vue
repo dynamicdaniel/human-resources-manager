@@ -153,6 +153,7 @@ export default {
           })
             .then(() => {
               // 重定向对象不存在则返回顶层路径
+              console.log('view login page.vue 重定向根路劲')
               this.$router.replace(this.$route.query.redirect || '/')
             })
         } else {

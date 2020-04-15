@@ -1,7 +1,8 @@
 const userDB = [
-  { username: 'admin', password: 'admin', uuid: 'admin-uuid', name: 'Admin' },
-  { username: 'editor', password: 'editor', uuid: 'editor-uuid', name: 'Editor' },
-  { username: 'user1', password: 'user1', uuid: 'user1-uuid', name: 'User1' }
+  { username: 'admin', password: '11', uuid: 'admin-uuid', name: 'Admin' },
+  { username: 'hr', password: '11', uuid: 'editor-uuid', name: 'Editor' },
+  { username: 'manager', password: '11', uuid: 'user1-uuid', name: 'User1' },
+  { username: 'employee', password: '11', uuid: 'user1-uuid', name: 'User2s' }
 ]
 
 export default [
